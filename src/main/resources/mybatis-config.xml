@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 在填写标签的时候一定注意其顺序 -->
+<configuration>
+    <!-- 当需要引入外部文件的时候可以使用这样的方式，类似于：
+     <context:property-placeholder location />
+     resource: 表示从当前项目的类路径中加载，如果用的是Idea，则是resources资源目录下的文件
+     url: 当前文件系统或者网络上的资源
+     -->
+    <properties resource="db.properties" />
+    <!-- 可以一项mybatis运行时的行为，包含N多个属性，需要什么引入什么 -->
+    <settings>
+        <!-- 开启驼峰标识的自动转换 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!-- 在引入实体类的名称的时候，可以使用别名，而不需要写完全限定名 -->
+    <typeAliases>
+        <!-- 在UserMapper.xml中就可以不写全路径，而只写User了 -->
+        <typeAlias type="com.lisz.bean.User" alias="User" />
+    </typeAliases>
+    <!-- 项目开发过程中，有开发、测试、生产等环境。在这里可以指定多个环境。default可以选择哪个环境作为运行时环境 -->
+    <environments default="development">
+        <!-- 配置具体的环境属性，id表示当前环境的名称 -->
+        <environment id="development">
+            <!-- 事务管理器，每一种数据源都要配置自己的事务管理器
+            type表示事务管理器的类型
+            jdbc：使用JDBC原声的事务控制
+            managed：什么都不做-->
+            <transactionManager type="JDBC"/>
+            <!-- 具体的数据源的类型。type表示其类型。POOLED表示使用数据库连接处
+             UNPOOLED：每次都打开关闭连接-->
+            <dataSource type="POOLED">
+                <!-- 联机数据库的时候要添加的必备的参数，一般是这四个，如果是连接池的话，可以设置连接连接最大个数的相关信息 -->
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="UserMapper.xml"/>
+    </mappers>
+</configuration>

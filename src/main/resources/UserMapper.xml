@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lisz.dao.UserDao">
+    <!-- select标签中id的名字跟Dao中对应的方法名字一致 -->
+    <select id="findById" resultType="User">
+      select * from user where id = #{id}
+    </select>
+    <insert id="save">
+        insert into user (name, job, birth_date, email, score, created_at, modified_at, version)
+        values (#{name}, #{job}, #{birthDate}, #{email}, #{score}, #{createdAt}, #{modifiedAt}, 0)
+    </insert>
+    <update id="update">
+        update user set score = #{score}, version = version + 1 where id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete from user where id = #{id}
+    </delete>
+</mapper>
